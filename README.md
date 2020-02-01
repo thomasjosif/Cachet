@@ -68,3 +68,11 @@ Edit the crontab file and add this line:
 ```bash
 */5 * * * * ~/uptimerobot-cron/run.sh
 ```
+
+
+## Credits
+[Cachet](https://github.com/CachetHQ/Cachet)
+[Updater Script](https://github.com/Axiacore/cachet-uptime-robot)
+[SCP:SL Background Slideshow](https://scpslgame.com)
+
+Lots of this documentation was derived from the libraries listed above.
