@@ -1,6 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <div class="crossfade">
+<slideshow></slideshow>
+<slideshow></slideshow>
+<slideshow></slideshow>
+<slideshow></slideshow>
+<slideshow></slideshow>
+</div>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
@@ -16,7 +23,7 @@
 
     <meta property="og:type" content="website">
     <meta property="og:title" content="@yield('title', $siteTitle)">
-    <meta property="og:image" content=" {{ asset('/img/favicon.png') }}">
+    <meta property="og:image" content=" {{ asset('/img/favicon2.png') }}">
     <meta property="og:description" content="@yield('description', trans('cachet.meta.description.overview', ['app' => $appName]))">
 
     <!-- Mobile IE allows us to activate ClearType technology for smoothing fonts for easy reading -->
@@ -28,10 +35,10 @@
     <link href="{{ Request::fullUrl() }}" rel="canonical">
 
     @if (isset($favicon))
-    <link rel="icon" href="{{ asset("/img/{$favicon}.ico") }}" type="image/x-icon">
+    <link rel="icon" href="{{ asset("/img/{$favicon}2.ico") }}" type="image/x-icon">
     <link rel="shortcut icon" href="{{ asset("/img/{$favicon}.png") }}" type="image/png">
     @else
-    <link rel="icon" href="{{ asset('/img/favicon.ico') }}" type="image/x-icon">
+    <link rel="icon" href="{{ asset('/img/favicon2.ico') }}" type="image/x-icon">
     <link rel="shortcut icon" href="{{ asset('/img/favicon.png') }}" type="image/png">
     @endif
 
@@ -78,6 +85,7 @@
     <script src="{{ asset(mix('dist/js/vendor.js')) }}"></script>
 </head>
 <body class="status-page @yield('bodyClass')">
+
     @yield('outer-content')
 
     @include('partials.banner')
