@@ -1,30 +1,9 @@
-<p align="center"><img src="https://demo.cachethq.io/img/cachet-logo.svg" width="50%"></p>
 
-<p align="center">
-<a href="https://styleci.io/repos/26730195/"><img src="https://styleci.io/repos/26730195/shield" alt="StyleCI"></a>
-<a href="https://travis-ci.org/CachetHQ/Cachet"><a href="https://opencollective.com/Cachet" alt="Financial Contributors on Open Collective"><img src="https://opencollective.com/Cachet/all/badge.svg?label=financial+contributors" /></a> <img src="https://img.shields.io/travis/CachetHQ/Cachet/2.4.svg?style=flat-square" alt="Build Status"></a>
-<a href="LICENSE"><img src="https://img.shields.io/badge/license-BSD3-brightgreen.svg?style=flat-square" alt="License"></a>
-<a href="https://translate.cachethq.io/project/cachet"><img src="https://d322cqt584bo4o.cloudfront.net/cachet/localized.svg" alt="Localisation"></a>
-<a href="https://github.com/CachetHQ/Cachet/releases"><img src="https://img.shields.io/github/release/cachethq/cachet.svg?style=flat-square" alt="Latest Stable Version"></a>
-</p>
+# SCP:SL Status Page
 
-Cachet is a beautiful and powerful open source status page system.
+This status page designed for the game [SCP:SL](https://scpslgame.com) is a modified version of [Cachet](https://github.com/CachetHQ/Cachet), an open-source status page system. It has a few tweaks in the internal CSS and JS to give it that SCP flare. 
 
-## Overview
-
-- List your service components
-- Report incidents
-- Customise the look of your status page
-- Markdown support for incident messages
-- A powerful JSON API
-- Metrics
-- Multi-lingual
-- Subscriber notifications via email
-- Two factor authentication
-
-## Community
-
-You can now [join our Slack community!](http://cachethq-slack.herokuapp.com)
+It also includes a [package](https://github.com/Axiacore/cachet-uptime-robot) by Axiacore called cachet-uptime-robot that will automatically update the status on the page according to live-data from [UptimeRobot](https://uptimerobot.com)
 
 ## Requirements
 
@@ -32,72 +11,60 @@ You can now [join our Slack community!](http://cachethq-slack.herokuapp.com)
 - HTTP server with PHP support (e.g.: Apache, Nginx, Caddy)
 - [Composer](https://getcomposer.org)
 - A supported database: MySQL, PostgreSQL or SQLite
+- Python 3.6+ for the updater script
 
-## Installation, Upgrades and Documentation
+## Installation
 
-You can find documentation at [https://docs.cachethq.io](https://docs.cachethq.io).
+You can find installation documentation for Cachet [here](https://docs.cachethq.io/docs/installing-cachet). When it says to git clone Cachet, please clone this repository instead. 
 
-Here are some useful quick links:
+## Configuration
 
-- [Installing Cachet](https://docs.cachethq.io/docs/installing-cachet)
-- [Getting started with Docker](https://docs.cachethq.io/docs/get-started-with-docker)
-- [Installing Cachet on Windows](https://docs.cachethq.io/docs/installing-cachet-on-windows)
+### Dashboard Config
+You will need to set the main logo for the site in the admin control panel, the logo used in my demo site can be found in the /logo/ folder.
 
-### Demo
+Once you have determined your required monitors, add them as components in the dashboard and record their component ID's for use in the updater script. You can find the ID listed for the component in your browsers address bar.
 
-To test out the demo, you can log in to the [Dashboard](https://dev.cachethq.io/dashboard) with the following credentials:
+### Updater Script Config
 
-- **Username:** `test` or `test@example.com`
-- **Password:** `test123`
 
-> The demo resets every 30 minutes.
+To get started, you have to specify your Cachet and UptimeRobot settings and in **/uptimerobot-cron/config.ini**.
+```ini
+[uptimeRobot] // Global uptimerobot API
+UptimeRobotMainApiKey = your-api-key
 
-## Translate Cachet
+[cachet] // Global cachet status API
+CachetApiKey = cachet-api-key
+CachetUrl = https://status.mycompany.com
 
-If you'd like to contribute translations, please check out our [Crowdin project](https://crowdin.com/project/cachet).
+[uptimeRobotMonitorID1] // This will update ComponentId 1 on the global Cachet
+ComponentId = 1
 
-## Security Vulnerabilities
+[uptimeRobotMonitorID2] // This will update ComponentId 2 on the global Cachet
+ComponentId = 2
+```
 
-If you discover a security vulnerability within Cachet, please send an e-mail to [support@cachethq.io](mailto:support@cachethq.io?Cachet%20Security%20Vulnerability). All security vulnerabilities are reviewed on a case-by-case basis.
+* `UptimeRobotMainApiKey`: UptimeRobot API key.
+* `uptimeRobotMonitorID`: This exact "monitor" id set in UptimeRobot. You can find the id's by running `python update_status.py config.ini --printIds`
+* `CachetApiKey`:  Cachet API key.
+* `CachetUrl`: URL of the API of the status page you want to show the site availability in.
+* `ComponentId`: Id of the component you want to update on each check.
 
-## Limited Support Contact
 
-We may be able to resolve **support queries** via email. Please send an email to [support@cachethq.io](mailto:support@cachethq.io?Cachet%20Support). Please check the GitHub [issue tracker](https://github.com/CachetHQ/Cachet/issues) first before emailing.
+### Command and args
+`update_status.py <config> [--printIds]`  
+`config` is mandantory and must point to the path where a config file can be found.  
+`--printIds` will print a list with all monitors in UptimeRobot with there name and ID. This ID needed in the config.ini file.
 
-## Professional Installation Service
+You can always do `update_status.py -h` for more info.
 
-A professional **installation service** is offered by Alt Three Services Limited. To find out more, contact [support@alt-three.com](mailto:support@alt-three.com?Cachet%20Installation). **Do not contact this email address for general support.**
+### Updater script cronjob
+Register a cron that runs `update_status.py` every 5 minutes.
+```bash
+# Open cron file to edit.
+crontab -e
+```
 
-## Sponsorship
-
-You can sponsor Cachet at our [Patreon page](https://patreon.com/jbrooksuk).
-
-## Contributors
-
-### Code Contributors
-
-This project exists thanks to all the people who contribute. [[Contribute](CONTRIBUTING.md)].
-<a href="https://github.com/CachetHQ/Cachet/graphs/contributors"><img src="https://opencollective.com/Cachet/contributors.svg?width=890&button=false" /></a>
-
-### Financial Contributors
-
-Become a financial contributor and help us sustain our community. [[Contribute](https://opencollective.com/Cachet/contribute)]
-
-#### Individuals
-
-<a href="https://opencollective.com/Cachet"><img src="https://opencollective.com/Cachet/individuals.svg?width=890"></a>
-
-#### Organizations
-
-Support this project with your organization. Your logo will show up here with a link to your website. [[Contribute](https://opencollective.com/Cachet/contribute)]
-
-<a href="https://opencollective.com/Cachet/organization/0/website"><img src="https://opencollective.com/Cachet/organization/0/avatar.svg"></a>
-<a href="https://opencollective.com/Cachet/organization/1/website"><img src="https://opencollective.com/Cachet/organization/1/avatar.svg"></a>
-<a href="https://opencollective.com/Cachet/organization/2/website"><img src="https://opencollective.com/Cachet/organization/2/avatar.svg"></a>
-<a href="https://opencollective.com/Cachet/organization/3/website"><img src="https://opencollective.com/Cachet/organization/3/avatar.svg"></a>
-<a href="https://opencollective.com/Cachet/organization/4/website"><img src="https://opencollective.com/Cachet/organization/4/avatar.svg"></a>
-<a href="https://opencollective.com/Cachet/organization/5/website"><img src="https://opencollective.com/Cachet/organization/5/avatar.svg"></a>
-<a href="https://opencollective.com/Cachet/organization/6/website"><img src="https://opencollective.com/Cachet/organization/6/avatar.svg"></a>
-<a href="https://opencollective.com/Cachet/organization/7/website"><img src="https://opencollective.com/Cachet/organization/7/avatar.svg"></a>
-<a href="https://opencollective.com/Cachet/organization/8/website"><img src="https://opencollective.com/Cachet/organization/8/avatar.svg"></a>
-<a href="https://opencollective.com/Cachet/organization/9/website"><img src="https://opencollective.com/Cachet/organization/9/avatar.svg"></a>
+Edit the crontab file and add this line:
+```bash
+*/5 * * * * ~/uptimerobot-cron/run.sh
+```
