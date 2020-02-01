@@ -1,13 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <div class="crossfade">
-<slideshow></slideshow>
-<slideshow></slideshow>
-<slideshow></slideshow>
-<slideshow></slideshow>
-<slideshow></slideshow>
-</div>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
@@ -85,7 +78,15 @@
     <script src="{{ asset(mix('dist/js/vendor.js')) }}"></script>
 </head>
 <body class="status-page @yield('bodyClass')">
-
+    <!-- SCP:SL Slideshow taken from https://scpslgame.com -->
+    <div class="crossfade">
+        <slideshow></slideshow>
+        <slideshow></slideshow>
+        <slideshow></slideshow>
+        <slideshow></slideshow>
+        <slideshow></slideshow>
+    </div>
+    <!-- End SCP:SL Slideshow -->
     @yield('outer-content')
 
     @include('partials.banner')

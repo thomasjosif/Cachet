@@ -1,3 +1,1 @@
-
-    <div class="alert alert-{{ $systemStatus }}">{{ $systemMessage }}</div>
-
+<div class="alert alert-{{ $systemStatus }}">{{ $systemMessage }}</div>
